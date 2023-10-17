@@ -7,6 +7,7 @@ function adicionar() {
     let nome = document.getElementById("nome-amigo").value;
     console.log(nome);
     //Verificar se o nome já não está na lista
+    let textoNomes = document.getElementById("lista-amigos");
     for (let i = 0; i < listaAmigos.length; i++) {
         if (nome == listaAmigos[i]) {
             alert("Nome já adicionado!");
@@ -15,10 +16,15 @@ function adicionar() {
     }
     // Adicionar a lista de amigos
     if (verificador == false) {
+        // Mostrar a lista no campo Amigos incluídos
+        if (textoNomes.textContent == "") {
+            textoNomes.textContent = nome;
+        }
+        else {
+            textoNomes.textContent = textoNomes.textContent + ", " + nome;
+        }
         listaAmigos.push(nome);
     }
-    // Mostrar a lista no campo Amigos incluídos
-    document.getElementById("lista-amigos").textContent = listaAmigos;
     verificador = false;
     document.getElementById("nome-amigo").value = "";
 }
@@ -53,4 +59,5 @@ function embaralharLista(lista) {
 function reiniciar() {
     document.getElementById("lista-amigos").textContent = "";
     document.getElementById("lista-sorteio").textContent = "";
+    listaAmigos = [];
 }
