@@ -1,18 +1,24 @@
 let listaAmigos = [];
-let verificador = false;
+
 
 function adicionar() {
+
+    let verificador = false;
+    let alertaErroNome = false;
 
     // Coletar o nome digitado
     let nome = document.getElementById("nome-amigo").value;
     console.log(nome);
-    //Verificar se o nome já não está na lista
+    //Verificar se o nome já não está na lista ou se o nome não esta vazio
     let textoNomes = document.getElementById("lista-amigos");
     for (let i = 0; i < listaAmigos.length; i++) {
-        if (nome == listaAmigos[i]) {
-            alert("Nome já adicionado!");
+        if (nome == listaAmigos[i] || nome == "") {
             verificador = true;
+            alertaErroNome = true;
         }      
+    }
+    if (alertaErroNome == true) {
+        alert("Nome repetido/inválido!");
     }
     // Adicionar a lista de amigos
     if (verificador == false) {
@@ -25,24 +31,27 @@ function adicionar() {
         }
         listaAmigos.push(nome);
     }
-    verificador = false;
     document.getElementById("nome-amigo").value = "";
 }
 
 function sortear() {
-    // Embaralhar lista
-    console.log(listaAmigos);
-    let listaEmbaralhada = embaralharLista(listaAmigos);
-    console.log(listaEmbaralhada);
-    // 0>1 1>2 2>3 3>4 4>0
-    for (let i = 0; i < listaEmbaralhada.length; i++) {
+    if (listaAmigos.length < 3) {
+        alert("Número de nomes insuficiente para o sorteio, adicione pelo menos 3 amigos!");
+    } else {
+        // Embaralhar lista
+        console.log(listaAmigos);
+        let listaEmbaralhada = embaralharLista(listaAmigos);
+        console.log(listaEmbaralhada);
+        // 0>1 1>2 2>3 3>4 4>0
         let sorteioAmigos = document.getElementById("lista-sorteio");
-        if (i == listaEmbaralhada.length - 1) {
-            sorteioAmigos.innerHTML =  sorteioAmigos.innerHTML + `<p>${listaEmbaralhada[i]} -> ${listaEmbaralhada[0]}</p>`
-            console.log(`${listaEmbaralhada[i]} -> ${listaEmbaralhada[0]}`)
-        } else {
-            sorteioAmigos.innerHTML = sorteioAmigos.innerHTML + `<p>${listaEmbaralhada[i]} -> ${listaEmbaralhada[i + 1]}</p>`
-        console.log(`${listaEmbaralhada[i]} -> ${listaEmbaralhada[i + 1]}`)
+        for (let i = 0; i < listaEmbaralhada.length; i++) {
+            if (i == listaEmbaralhada.length - 1) {
+                sorteioAmigos.innerHTML =  sorteioAmigos.innerHTML + `<p>${listaEmbaralhada[i]} -> ${listaEmbaralhada[0]}</p>`
+                console.log(`${listaEmbaralhada[i]} -> ${listaEmbaralhada[0]}`)
+            } else {
+                sorteioAmigos.innerHTML = sorteioAmigos.innerHTML + `<p>${listaEmbaralhada[i]} -> ${listaEmbaralhada[i + 1]}</p>`
+            console.log(`${listaEmbaralhada[i]} -> ${listaEmbaralhada[i + 1]}`)
+            }
         }
     }
 }
@@ -50,7 +59,7 @@ function sortear() {
 // Função para embaralhar lista
 function embaralharLista(lista) {
     for (let i = 0; i < lista.length; i++) {
-        let j = Math.floor(Math.random() * (i + 1));
+        const j = Math.floor(Math.random() * (i + 1));
         [lista[i] , lista[j]] = [lista[j], lista[i]];
     }
     return lista;
